@@ -1,4 +1,6 @@
-Debug/*
+*.o
+*.mod
+*.exe
 .cproject
 .project
 *.eps
