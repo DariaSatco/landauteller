@@ -78,10 +78,11 @@ real(8):: C1,C2,c2s, sumc2s, c2sfactor, Aif, A2c, A2s, psi0, func, funcind, func
 !PROGRAM
 
 ! describe initial values
-inst=0
+inst=1
 finst=2
-energy=10.0D+00
-actin=(inst+finst+1)*0.5D+00
+energy=10.0D+00 !8.41825 !10.0D+00
+actin=inst+0.5D+00
+!actin=(inst+finst+1)*0.5D+00
 !eti=energy-actin
 !Pin=-sqrt(2*lambda2*eti)
 Ri=600.0D+00
@@ -101,12 +102,12 @@ open(unit=17, file='functioncheck.txt', status='replace')
 ! functioncheck.txt - file with phase dependence of functions
 open(unit=28, file='analytic.txt', status='replace')
 ! analytic.txt - file with calucalations using analytical formulas
-open(unit=10, file='prob02(test).txt', status='replace')
+open(unit=10, file='prob02(test)(n2).txt', status='replace')
 ! prob01.txt - probability data
 
-!do r=1,5
+!do r=1,7
 
-!energy=6.0D+00+(r-1)*1.0D+00
+!energy=4.0D+00+(r-1)*1.0D+00
 eti=energy-actin
 Pin=-sqrt(2*lambda2*eti)
 
@@ -326,8 +327,8 @@ write(28,'(f15.7 f15.7 f15.7 f15.7 f15.7 f15.7)') phase(i), dqdq, func, func1st,
 !calculate vectors to integrate
 
 !perturbation theory 2nd oder
-intfuncRE1(i)=cos(func)!*dqdq
-intfuncIM1(i)=sin(func)!*dqdq
+intfuncRE1(i)=cos(func)*dqdq
+intfuncIM1(i)=sin(func)*dqdq
 !perturbation theory 1st oder
 intfuncRE4(i)=cos(func1st)
 intfuncIM4(i)=sin(func1st)
@@ -348,8 +349,8 @@ write(23, '(f15.7 f15.7 f15.7 f15.7 f15.7)') phase(i), func, func1st
 !calculate vectors to integrate
 
 !perturbation theory 2nd oder
-intfuncRE3(i)=cos(func)!*dqdq
-intfuncIM3(i)=sin(func)!*dqdq
+intfuncRE3(i)=cos(func)*dqdq
+intfuncIM3(i)=sin(func)*dqdq
 !perturbation theory 1st oder
 intfuncRE5(i)=cos(func1st)
 intfuncIM5(i)=sin(func1st)
@@ -396,14 +397,14 @@ divqgen(i)=A0(6)-lambda2*(A0(8)/A0(2)-A0(1)*A0(9)/A0(2)**2)
         partS1(i)=partS1(i)+(A0matrix(4,i))*constantq/(2*pi)
 
         write(17,'(f10.3 f15.7 f15.7 f15.7 f15.7 f15.7 f15.7 f15.7)') phase(i), qgen(i)-phase(i),&
-        partS(i), partS1(i), divqgen(i)
+        partS(i), partS1(i), divqgen(i), A0matrix(4,i)-0.5D+00
 
 
-        intfuncRE(i)=cos(partS(i))!*sqrt(abs(divqgen(i)))
-        intfuncIM(i)=sin(partS(i))!*sqrt(abs(divqgen(i)))
+        intfuncRE(i)=cos(partS(i))*sqrt(abs(divqgen(i)))
+        intfuncIM(i)=sin(partS(i))*sqrt(abs(divqgen(i)))
 
-        intfuncRE2(i)=cos(partS1(i))!*sqrt(abs(divqgen(i)))
-        intfuncIM2(i)=sin(partS1(i))!*sqrt(abs(divqgen(i)))
+        intfuncRE2(i)=cos(partS1(i))*sqrt(abs(divqgen(i)))
+        intfuncIM2(i)=sin(partS1(i))*sqrt(abs(divqgen(i)))
 
     end do
 
@@ -430,6 +431,7 @@ print*, constantq/(2*pi)
 
 !Probability
 
+!Prob=(ReS**2+ImS**2)/(2*pi)**2
 Prob=((ReS+ReS2)**2+(ImS+ImS2)**2)/(4*pi)**2
 Prob1=(ReS**2+ImS**2+ReS2**2+ImS2**2)/(8*pi**2)
 Prob2=((ReS1+ReS3)**2+(ImS1+ImS3)**2)/(4*pi)**2

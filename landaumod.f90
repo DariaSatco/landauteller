@@ -1,7 +1,7 @@
 module landaumod
 
-real(8), parameter:: alpha=0.1278   !0.3    !0.314
-real(8), parameter:: lambda2=0.006268  !0.5D+00 !2.0D+00/3  !0.5D+00  !0.667 !0.2D+00
+real(8), parameter:: alpha=0.3  !0.114 !0.314  !0.1278   !0.3
+real(8), parameter:: lambda2=2.0D+00/3     !0.5D+00  !1.0D+00/3  !0.006268  !0.5D+00 !2.0D+00/3   !0.667 !0.2D+00
 real(8), parameter:: pi=3.1415926
 real(8), public:: U
 
